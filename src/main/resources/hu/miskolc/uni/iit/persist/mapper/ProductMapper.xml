@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="hu.miskolc.uni.iit.persist.mapper.ProductMapper">
+
+	<resultMap type="Product" id="ProductResultMap">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<collection property="parts" ofType="Product" columnPrefix="part_" resultMap="ProductResultMap" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="ProductResultMap">
+		SELECT
+			p.id AS id,
+			p.name AS name,
+			r.id AS part_id,
+			r.name AS part_name
+		FROM
+			product p
+			LEFT JOIN parts q ON p.id = q.product
+			LEFT JOIN product r ON q.part = r.id
+		ORDER BY
+			p.id ASC
+	</select>
+	
+	<select id="selectById" resultMap="ProductResultMap">
+		SELECT
+			p.id AS id,
+			p.name AS name,
+			r.id AS part_id,
+			r.name AS part_name
+		FROM
+			product p
+			LEFT JOIN parts q ON p.id = q.product
+			LEFT JOIN product r ON q.part = r.id
+		WHERE
+			p.id = #{id}
+	</select>
+	
+	<select id="selectLastInsertId" resultType="int">
+		SELECT
+			last_insert_id() AS last_insert_id
+		FROM
+			DUAL
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO product
+		(
+			name
+		)
+		VALUES
+		(
+			#{product.name}
+		)
+	</insert>
+	
+	<insert id="insertParts">
+		INSERT INTO parts
+		(
+			product,
+			part
+		)
+		VALUES
+		<foreach collection="parts" item="part" index="index">
+		(
+			#{id},
+			#{part.id}
+		)
+		</foreach>
+	</insert>
+	
+	<update id="update">
+		UPDATE product p
+		<set>
+			<if test="product.name != null">
+				p.name = #{product.name}				
+			</if>
+		</set>
+		WHERE
+			p.id = #{product.id}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM product WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteParts">
+		DELETE FROM parts WHERE product = #{id}
+	</delete>
+
+</mapper>

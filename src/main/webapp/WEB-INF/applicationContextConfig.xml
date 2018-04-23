@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:component-scan
+		base-package="hu.miskolc.uni.iit.controller" />
+
+	<context:property-placeholder
+		location="classpath:META-INF/db-connection.properties" />
+
+	<mvc:annotation-driven />
+
+	<mvc:default-servlet-handler />
+
+	<!-- View Resolver bean -->
+	<bean name="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/view/" />
+		<property name="suffix" value=".html" />
+	</bean>
+
+	<!-- Datasource bean -->
+	<bean name="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+	
+	<!-- Liquibase bean -->
+	<bean name="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+		<property name="dataSource" ref="dataSource" />
+		<property name="changeLog" value="classpath:liquibase/changelog.xml" />
+	</bean>
+
+	<!-- MyBatis DAO beans -->
+	<bean name="productDAO"
+		class="hu.miskolc.uni.iit.persist.ProductDAOImpl" />
+
+	<!-- JPA Repository beans -->
+	<bean name="productRepository"
+		class="hu.miskolc.uni.iit.persist.ProductRepositoryImpl" />
+
+	<!-- Service beans -->
+	<bean name="productServiceMyBatis"
+		class="hu.miskolc.uni.iit.service.ProductServiceMyBatisImpl">
+		<constructor-arg name="productDAO" ref="productDAO" />
+	</bean>
+	<bean name="productServiceJPA"
+		class="hu.miskolc.uni.iit.service.ProductServiceJPAImpl">
+		<constructor-arg name="productRepository"
+			ref="productRepository" />
+	</bean>
+
+</beans>
