@@ -65,7 +65,9 @@ public class ProductDAOImpl implements ProductDAO {
 			Product product = mapper.selectById(id);
 
 			// Will be removed when I find a better solution for collecting the parts.
-			collectParts(mapper, product);
+			if (product != null) {
+				collectParts(mapper, product);
+			}
 
 			return product;
 		} finally {
@@ -81,7 +83,6 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public Integer save(Product product) {
 		SqlSession sqlSession = null;
-
 		try {
 			sqlSession = sqlSessionFactory.openSession();
 
@@ -105,6 +106,33 @@ public class ProductDAOImpl implements ProductDAO {
 			sqlSession.commit();
 
 			return id;
+		} finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+	}
+
+	/**
+	 * @see hu.miskolc.uni.iit.persist.BaseDAO#delete(java.lang.Integer)
+	 */
+	@Override
+	public boolean delete(Integer id) {
+		// TODO: Fix it to be able to delete products that are parts of other products.
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = sqlSessionFactory.openSession();
+
+			ProductMapper mapper = sqlSession.getMapper(ProductMapper.class);
+
+			mapper.deleteParts(id);
+			mapper.delete(id);
+
+			sqlSession.commit();
+
+			Product product = mapper.selectById(id);
+
+			return product == null ? true : false;
 		} finally {
 			if (sqlSession != null) {
 				sqlSession.close();

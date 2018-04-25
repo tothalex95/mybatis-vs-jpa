@@ -13,4 +13,6 @@ public class DeleteProductResponse {
 
 	private long elapsedTime;
 
+	private boolean succeeded;
+
 }

@@ -1,4 +1,4 @@
-package hu.miskolc.uni.iit.response;
+package hu.miskolc.uni.iit.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,9 +9,9 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @ToString
-public class CreateProductResponse {
+public class SearchProductRequest {
 
-	private long elapsedTime;
+	private ORMType ormType;
 
 	private Integer id;
 

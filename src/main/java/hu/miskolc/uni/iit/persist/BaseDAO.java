@@ -35,4 +35,14 @@ public interface BaseDAO<T> {
 	 */
 	Integer save(T object);
 
+	/**
+	 * Deletes the object identified by {@link id}. Returns true if the operation
+	 * succeeded, otherwise returns false.
+	 * 
+	 * @param id
+	 *            The id of the object that must be deleted.
+	 * @return Whether the operation succeeded or not.
+	 */
+	boolean delete(Integer id);
+
 }

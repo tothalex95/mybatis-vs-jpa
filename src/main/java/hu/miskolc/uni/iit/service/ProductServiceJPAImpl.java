@@ -14,18 +14,23 @@ public class ProductServiceJPAImpl implements ProductService {
 	}
 
 	@Override
-	public Integer create(Product product) {
+	public Integer save(Product product) {
 		return productRepository.save(product);
 	}
 
 	@Override
-	public List<Product> readAll() {
+	public List<Product> searchAll() {
 		return productRepository.findAll();
 	}
 
 	@Override
-	public Product readById(Integer id) {
+	public Product searchById(Integer id) {
 		return productRepository.findOne(id);
+	}
+
+	@Override
+	public boolean delete(Integer id) {
+		return productRepository.delete(id);
 	}
 
 }

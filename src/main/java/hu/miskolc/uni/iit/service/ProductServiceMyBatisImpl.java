@@ -14,18 +14,23 @@ public class ProductServiceMyBatisImpl implements ProductService {
 	}
 
 	@Override
-	public Integer create(Product product) {
+	public Integer save(Product product) {
 		return productDAO.save(product);
 	}
 
 	@Override
-	public List<Product> readAll() {
+	public List<Product> searchAll() {
 		return productDAO.findAll();
 	}
 
 	@Override
-	public Product readById(Integer id) {
+	public Product searchById(Integer id) {
 		return productDAO.findOne(id);
+	}
+
+	@Override
+	public boolean delete(Integer id) {
+		return productDAO.delete(id);
 	}
 
 }

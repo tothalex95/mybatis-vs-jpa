@@ -13,13 +13,13 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @ToString
-public class ReadProductResponse {
+public class SearchProductResponse {
 
 	private long elapsedTime;
 
 	private List<Product> products;
 
-	public ReadProductResponse() {
+	public SearchProductResponse() {
 		products = new ArrayList<>();
 	}
 

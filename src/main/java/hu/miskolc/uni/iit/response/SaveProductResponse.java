@@ -9,8 +9,10 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @ToString
-public class UpdateProductResponse {
+public class SaveProductResponse {
 
 	private long elapsedTime;
+
+	private Integer id;
 
 }

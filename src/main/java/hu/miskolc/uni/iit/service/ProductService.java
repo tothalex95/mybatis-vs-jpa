@@ -6,10 +6,12 @@ import hu.miskolc.uni.iit.model.Product;
 
 public interface ProductService {
 
-	Integer create(Product product);
+	Integer save(Product product);
 
-	List<Product> readAll();
+	List<Product> searchAll();
 
-	Product readById(Integer id);
+	Product searchById(Integer id);
+
+	boolean delete(Integer id);
 
 }

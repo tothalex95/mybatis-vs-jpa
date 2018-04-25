@@ -42,16 +42,16 @@ public class Test {
 
 		ProductService service = new ProductServiceMyBatisImpl(new ProductDAOImpl());
 
-		for (Product p : service.readAll()) {
+		for (Product p : service.searchAll()) {
 			System.out.println(p);
 		}
 
 		Product product = new Product();
 		product.setName("hello");
-		product.setParts(Arrays.asList(service.readById(9)));
-		System.out.println(service.create(product));
+		product.setParts(Arrays.asList(service.searchById(9)));
+		System.out.println(service.save(product));
 
-		for (Product p : service.readAll()) {
+		for (Product p : service.searchAll()) {
 			System.err.println(p);
 		}
 
