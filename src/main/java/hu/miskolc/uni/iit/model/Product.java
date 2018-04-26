@@ -16,6 +16,7 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,10 +30,12 @@ import lombok.experimental.Accessors;
 @Entity
 @Table(name = "product")
 @NamedQueries({
-	@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
+	@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+//	@NamedQuery(name = "Product.findContainers", query = "SELECT p FROM Product p JOIN p.parts q WHERE p.id = :partId")
 })
 @NamedNativeQueries({
-	@NamedNativeQuery(name = "Product.lastInsertId", query = "SELECT last_insert_id() FROM DUAL")
+	@NamedNativeQuery(name = "Product.lastInsertId", query = "SELECT last_insert_id() FROM DUAL"),
+	@NamedNativeQuery(name = "Product.findContainers", query = "SELECT p.id, p.name FROM product p LEFT JOIN parts q ON p.id = q.product LEFT JOIN product r ON r.id = q.part WHERE r.id = ?")
 })
 @Accessors(chain = true)
 @Getter
@@ -54,5 +57,8 @@ public class Product {
 		inverseJoinColumns = @JoinColumn(name = "part", referencedColumnName = "id")
 	)
 	private List<Product> parts;
+
+	@Transient
+	private List<Product> containers;
 
 }

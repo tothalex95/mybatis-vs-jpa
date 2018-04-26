@@ -9,6 +9,7 @@
 		<id column="id" property="id" />
 		<result column="name" property="name" />
 		<collection property="parts" ofType="Product" columnPrefix="part_" resultMap="ProductResultMap" />
+		<collection property="containers" ofType="Product" columnPrefix="container_" resultMap="ProductResultMap" />
 	</resultMap>
 
 	<select id="selectAll" resultMap="ProductResultMap">
@@ -16,11 +17,15 @@
 			p.id AS id,
 			p.name AS name,
 			r.id AS part_id,
-			r.name AS part_name
+			r.name AS part_name,
+			t.id AS container_id,
+			t.name AS container_name
 		FROM
 			product p
 			LEFT JOIN parts q ON p.id = q.product
 			LEFT JOIN product r ON q.part = r.id
+			LEFT JOIN parts s ON p.id = s.part
+			LEFT JOIN product t ON s.product = t.id
 		ORDER BY
 			p.id ASC
 	</select>
@@ -30,11 +35,15 @@
 			p.id AS id,
 			p.name AS name,
 			r.id AS part_id,
-			r.name AS part_name
+			r.name AS part_name,
+			t.id AS container_id,
+			t.name AS container_name
 		FROM
 			product p
 			LEFT JOIN parts q ON p.id = q.product
 			LEFT JOIN product r ON q.part = r.id
+			LEFT JOIN parts s ON p.id = s.part
+			LEFT JOIN product t ON s.product = t.id
 		WHERE
 			p.id = #{id}
 	</select>
@@ -57,19 +66,17 @@
 		)
 	</insert>
 	
-	<insert id="insertParts">
+	<insert id="insertPart">
 		INSERT INTO parts
 		(
 			product,
 			part
 		)
 		VALUES
-		<foreach collection="parts" item="part" index="index">
 		(
 			#{id},
 			#{part.id}
 		)
-		</foreach>
 	</insert>
 	
 	<update id="update">

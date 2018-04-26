@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import hu.miskolc.uni.iit.model.Product;
 import hu.miskolc.uni.iit.request.DeleteProductRequest;
 import hu.miskolc.uni.iit.request.ORMType;
 import hu.miskolc.uni.iit.request.SaveProductRequest;
@@ -63,13 +64,19 @@ public class ProductController {
 			if (searchProductRequest.getId() == null || searchProductRequest.getId() == 0) {
 				searchProductResponse.getProducts().addAll(productServiceMyBatis.searchAll());
 			} else {
-				searchProductResponse.getProducts().add(productServiceMyBatis.searchById(searchProductRequest.getId()));
+				Product product = productServiceMyBatis.searchById(searchProductRequest.getId());
+				if (product != null) {
+					searchProductResponse.getProducts().add(product);
+				}
 			}
 		} else {
 			if (searchProductRequest.getId() == null || searchProductRequest.getId() == 0) {
 				searchProductResponse.getProducts().addAll(productServiceJPA.searchAll());
 			} else {
-				searchProductResponse.getProducts().add(productServiceJPA.searchById(searchProductRequest.getId()));
+				Product product = productServiceJPA.searchById(searchProductRequest.getId());
+				if (product != null) {
+					searchProductResponse.getProducts().add(product);
+				}
 			}
 		}
 

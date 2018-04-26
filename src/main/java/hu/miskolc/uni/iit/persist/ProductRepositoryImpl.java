@@ -1,5 +1,6 @@
 package hu.miskolc.uni.iit.persist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -42,6 +43,7 @@ public class ProductRepositoryImpl implements ProductDAO {
 	/**
 	 * @see hu.miskolc.uni.iit.persist.BaseDAO#findOne(java.lang.Integer)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Product findOne(Integer id) {
 		EntityManager entityManager = null;
@@ -49,6 +51,16 @@ public class ProductRepositoryImpl implements ProductDAO {
 			entityManager = entityManagerFactory.createEntityManager();
 
 			Product product = entityManager.find(Product.class, id);
+
+			Query query = entityManager.createNamedQuery("Product.findContainers");
+			query.setParameter(1, id);
+
+			List<Object[]> result = query.getResultList();
+			List<Product> containers = new ArrayList<>();
+
+			result.stream().forEach(r -> containers.add(new Product().setId((Integer) (r[0])).setName((String) r[1])));
+
+			product.setContainers(containers);
 
 			return product;
 		} finally {

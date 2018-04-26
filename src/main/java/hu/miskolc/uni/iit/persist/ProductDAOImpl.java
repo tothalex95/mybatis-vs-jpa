@@ -101,7 +101,9 @@ public class ProductDAOImpl implements ProductDAO {
 			}
 
 			mapper.deleteParts(id);
-			mapper.insertParts(id, product.getParts());
+			for (Product part : product.getParts()) {
+				mapper.insertPart(id, part);
+			}
 
 			sqlSession.commit();
 

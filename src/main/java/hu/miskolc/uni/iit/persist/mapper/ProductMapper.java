@@ -16,7 +16,7 @@ public interface ProductMapper {
 
 	void insert(@Param("product") Product product);
 
-	void insertParts(@Param("id") int id, @Param("parts") List<Product> parts);
+	void insertPart(@Param("id") int id, @Param("part") Product part);
 
 	void update(@Param("product") Product product);
 
