@@ -3,6 +3,7 @@ package hu.miskolc.uni.iit.controller;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import hu.miskolc.uni.iit.response.SaveProductResponse;
 import hu.miskolc.uni.iit.response.SearchProductResponse;
 import hu.miskolc.uni.iit.service.ProductService;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = { "/product" })
 public class ProductController {
@@ -58,13 +60,13 @@ public class ProductController {
 		System.out.println(searchProductRequest);
 
 		if (searchProductRequest.getOrmType() == ORMType.MyBatis) {
-			if (searchProductRequest.getId() == null) {
+			if (searchProductRequest.getId() == null || searchProductRequest.getId() == 0) {
 				searchProductResponse.getProducts().addAll(productServiceMyBatis.searchAll());
 			} else {
 				searchProductResponse.getProducts().add(productServiceMyBatis.searchById(searchProductRequest.getId()));
 			}
 		} else {
-			if (searchProductRequest.getId() == null) {
+			if (searchProductRequest.getId() == null || searchProductRequest.getId() == 0) {
 				searchProductResponse.getProducts().addAll(productServiceJPA.searchAll());
 			} else {
 				searchProductResponse.getProducts().add(productServiceJPA.searchById(searchProductRequest.getId()));
