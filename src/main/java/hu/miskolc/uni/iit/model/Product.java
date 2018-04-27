@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,8 +31,7 @@ import lombok.experimental.Accessors;
 @Entity
 @Table(name = "product")
 @NamedQueries({
-	@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-//	@NamedQuery(name = "Product.findContainers", query = "SELECT p FROM Product p JOIN p.parts q WHERE p.id = :partId")
+	@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
 })
 @NamedNativeQueries({
 	@NamedNativeQuery(name = "Product.lastInsertId", query = "SELECT last_insert_id() FROM DUAL"),
@@ -41,6 +41,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(of = { "id" })
 public class Product {
 
 	@Id
