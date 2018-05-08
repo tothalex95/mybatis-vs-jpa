@@ -20,4 +20,8 @@
 		file="classpath:liquibase/ddl/create/product.create.xml" />
 	<include file="classpath:liquibase/ddl/create/parts.create.xml" />
 
+	<!-- Populate tables -->
+	<include file="classpath:liquibase/dml/product.populate.xml" />
+	<include file="classpath:liquibase/dml/parts.populate.xml" />
+
 </databaseChangeLog>

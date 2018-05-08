@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="populatePartsTable" author="alextoth">
+		<preConditions>
+			<tableExists tableName="parts" />
+			<tableIsEmpty tableName="parts" />
+		</preConditions>
+		<insert tableName="parts">
+			<column name="product" value="1" />
+			<column name="part" value="2" />
+		</insert>
+		<insert tableName="parts">
+			<column name="product" value="1" />
+			<column name="part" value="3" />
+		</insert>
+		<insert tableName="parts">
+			<column name="product" value="1" />
+			<column name="part" value="4" />
+		</insert>
+		<insert tableName="parts">
+			<column name="product" value="2" />
+			<column name="part" value="4" />
+		</insert>
+		<insert tableName="parts">
+			<column name="product" value="2" />
+			<column name="part" value="5" />
+		</insert>
+		<insert tableName="parts">
+			<column name="product" value="3" />
+			<column name="part" value="2" />
+		</insert>
+		<insert tableName="parts">
+			<column name="product" value="4" />
+			<column name="part" value="5" />
+		</insert>
+	</changeSet>
+
+</databaseChangeLog>
